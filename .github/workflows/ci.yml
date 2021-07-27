@@ -1,0 +1,25 @@
+on: [push, pull_request]
+name: CI
+jobs:
+  build:
+    name: "Build on Racket '${{ matrix.racket-version }}' (${{ matrix.racket-variant }})"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        racket-version: ["stable", "current"]
+        racket-variant: ["BC", "CS"]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: Bogdanp/setup-racket@v0.12
+        with:
+          architecture: x64
+          distribution: full
+          variant: ${{ matrix.racket-variant }}
+          version: ${{ matrix.racket-version }}
+      - name: Installing try-catch-finally and its dependencies
+        run: raco pkg install --no-docs --auto ./try-catch-finally-lib
+             raco pkg install --no-docs --auto ./try-catch-finally
+      - name: Compiling try-catch-finally and building its docs
+        run: raco setup --check-pkg-deps --unused-pkg-deps try-catch-finally
+      - name: Testing try-catch-finally
+        run: raco test -x -p try-catch-finally
