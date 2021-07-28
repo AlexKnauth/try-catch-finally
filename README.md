@@ -2,6 +2,8 @@ try-catch-finally
 =================
 A macro for catching exceptions and running teardown operations.
 
+Documentation: https://docs.racket-lang.org/try-catch-finally/index.html
+
 ```scheme
 (try
   body ...+
