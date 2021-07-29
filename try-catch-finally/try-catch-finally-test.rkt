@@ -112,3 +112,16 @@
                             (displayln "fallback clause")))}
                        "got a syntax error\n"))
 
+;; Tests for try, catch, and finally together
+
+(module+ test
+  (check-output-string {(try
+                          (displayln "at before")
+                          (raise-syntax-error #f "a syntax error")
+                          (displayln "at after")
+                          (catch (exn:fail:syntax? e)
+                            (displayln "out catch"))
+                          (finally
+                            (displayln "out finally")))}
+                       "at before\nout catch\nout finally\n"))
+
