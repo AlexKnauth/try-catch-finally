@@ -34,7 +34,7 @@
   [(_ b:body ...+ c:catch-clause ...)
    #'(with-handlers ([c.pred c.handler] ...) b ...)]
   [(_ b:body ...+ c:catch-clause ... f:finally-clause)
-   #'(call-with-try-funally
+   #'(call-with-try-finally
       (λ () (with-handlers ([c.pred c.handler] ...) b ...))
       f.post-thunk)])
 
